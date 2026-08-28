@@ -436,7 +436,7 @@ function scrollToApiSteps(){document.getElementById('apiStepsSection').scrollInt
 function getApiKey(){return document.getElementById('apiKeyInput').value.trim();}
 function checkApiKey(){
   const key=getApiKey(),el=document.getElementById('apiStatus');
-  if(key.startsWith('AIza')){el.textContent='✓ Ready';el.className='api-status ok';}
+  if(key.length>=20){el.textContent='✓ Ready';el.className='api-status ok';}
   else{el.textContent='⚠ Not set';el.className='api-status missing';}
 }
 
@@ -537,7 +537,7 @@ function clearQueue(){queue=[];renderQueue();}
 async function startScan(){
   if(scanning)return;
   const key=getApiKey();
-  if(!key.startsWith('AIza')){showToast('⚠️ Please enter your Google Gemini API key first!');openHelp();return;}
+  if(key.length<20){showToast('⚠️ Please enter your Google Gemini API key first!');openHelp();return;}
   if(!queue.length){showToast('Add some card photos first!');return;}
   scanning=true;
   document.getElementById('scanBtn').disabled=true;
