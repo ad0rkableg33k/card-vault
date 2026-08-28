@@ -419,13 +419,17 @@
 </main>
 
 <footer>
-  Built by <a href="https://github.com/ad0rkableg33k" target="_blank">ad0rkableg33k</a>  Powered by <a href="https://deepmind.google/technologies/gemini/" target="_blank">Google Gemini Flash</a> &nbsp;·&nbsp;
+  Built by <a href="https://github.com/ad0rkableg33k" target="_blank">ad0rkableg33k</a> &amp; BabyyBat &amp; G33KY &nbsp;·&nbsp;
+  Powered by <a href="https://deepmind.google/technologies/gemini/" target="_blank">Google Gemini Flash</a> &nbsp;·&nbsp;
   <a href="https://github.com/ad0rkableg33k/card-vault" target="_blank">View on GitHub</a>
 </footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
+// ══ HELPERS ══
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
 // ══ STATE ══
 let mode='single',queue=[],results=[],scanning=false;
 
@@ -654,18 +658,49 @@ Include every card in the image. Be precise — this data is used for pricing re
   }
   parts.push({text:prompt});
 
-  const res=await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
-    {method:'POST',headers:{'Content-Type':'application/json'},
-     body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.1,maxOutputTokens:4096}})}
-  );
-
-  if(!res.ok){const e=await res.text();throw new Error(e);}
-  const data=await res.json();
-  const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'[]';
-  const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
-  // Always return an array
-  return Array.isArray(parsed)?parsed:[parsed];
+  // Retry up to 3 times for 503 or JSON errors
+  for(let attempt=1; attempt<=3; attempt++){
+    let res, data, text;
+    try{
+      res=await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
+        {method:'POST',headers:{'Content-Type':'application/json'},
+         body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.1,maxOutputTokens:8192}})}
+      );
+      if(res.status===503){
+        if(attempt<3){await sleep(3000*attempt);continue;}
+        throw new Error('Gemini is busy right now (503). Please try again in a moment.');
+      }
+      if(!res.ok){const e=await res.text();throw new Error(e);}
+      data=await res.json();
+      text=data.candidates?.[0]?.content?.parts?.[0]?.text||'[]';
+      // Clean up common JSON issues from truncation
+      let clean=text.replace(/```json|```/g,'').trim();
+      // If JSON is cut off, try to close it gracefully
+      try{
+        const parsed=JSON.parse(clean);
+        return Array.isArray(parsed)?parsed:[parsed];
+      }catch(jsonErr){
+        // Try to salvage partial JSON — find last complete card object
+        const lastClose=clean.lastIndexOf('}');
+        if(lastClose>-1){
+          let salvaged=clean.substring(0,lastClose+1);
+          // Make sure it's wrapped in array brackets
+          if(!salvaged.trimStart().startsWith('[')){salvaged='['+salvaged;}
+          salvaged=salvaged+']';
+          try{
+            const parsed=JSON.parse(salvaged);
+            return Array.isArray(parsed)?parsed:[parsed];
+          }catch(e2){/* fall through to retry */}
+        }
+        if(attempt<3){await sleep(2000);continue;}
+        throw new Error('Could not parse AI response after 3 attempts. Try a clearer photo.');
+      }
+    }catch(e){
+      if(attempt<3 && e.message.includes('503')){await sleep(3000*attempt);continue;}
+      throw e;
+    }
+  }
 }
 
 function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
