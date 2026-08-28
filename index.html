@@ -345,9 +345,12 @@
       <p>No credit card needed — just a Google account. <a onclick="openHelp()">How do I get one? (2 min)</a> &nbsp;·&nbsp; Key stays in your browser only.</p>
     </div>
     <div class="api-input-wrap">
-      <input type="password" id="apiKeyInput" placeholder="AIzaSy..." oninput="checkApiKey()" />
+      <input type="password" id="apiKeyInput" placeholder="paste your key here..." oninput="checkApiKey()" />
+      <button class="btn btn-outline btn-sm" onclick="testApiKey()">Test Key</button>
       <span class="api-status missing" id="apiStatus">⚠ Not set</span>
     </div>
+  <div id="apiError" style="display:none;background:rgba(192,57,43,0.1);border:1px solid var(--red);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.78rem;color:#e74c3c;font-family:'Space Mono',monospace;word-break:break-all;"></div>
+  <div id="apiSuccess" style="display:none;background:rgba(39,174,96,0.1);border:1px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.78rem;color:var(--green);">✅ API key works! Gemini is connected and ready to scan cards.</div>
   </div>
 
   <!-- UPLOAD -->
@@ -436,8 +439,36 @@ function scrollToApiSteps(){document.getElementById('apiStepsSection').scrollInt
 function getApiKey(){return document.getElementById('apiKeyInput').value.trim();}
 function checkApiKey(){
   const key=getApiKey(),el=document.getElementById('apiStatus');
+  document.getElementById('apiError').style.display='none';
+  document.getElementById('apiSuccess').style.display='none';
   if(key.length>=20){el.textContent='✓ Ready';el.className='api-status ok';}
   else{el.textContent='⚠ Not set';el.className='api-status missing';}
+}
+async function testApiKey(){
+  const key=getApiKey();
+  if(key.length<20){showToast('Paste your API key first!');return;}
+  const errEl=document.getElementById('apiError');
+  const okEl=document.getElementById('apiSuccess');
+  errEl.style.display='none'; okEl.style.display='none';
+  showToast('Testing key...');
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:'Say OK'}]}]})
+    });
+    const data=await res.json();
+    if(!res.ok){
+      errEl.textContent='❌ Error '+res.status+': '+JSON.stringify(data?.error?.message||data);
+      errEl.style.display='block';
+    } else {
+      okEl.style.display='block';
+      document.getElementById('apiStatus').textContent='✓ Ready';
+      document.getElementById('apiStatus').className='api-status ok';
+    }
+  }catch(e){
+    errEl.textContent='❌ Network error: '+e.message+' — If you are opening the file locally (file://), try hosting on GitHub Pages or a local server instead.';
+    errEl.style.display='block';
+  }
 }
 
 // ══ MODE ══
@@ -612,7 +643,7 @@ If multiple cards are visible, analyze the most prominent one. Be precise — th
   parts.push({text:prompt});
 
   const res=await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
     {method:'POST',headers:{'Content-Type':'application/json'},
      body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.1,maxOutputTokens:1024}})}
   );
