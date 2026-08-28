@@ -9,181 +9,189 @@
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
   :root {
-    --bg:       #0e0e10;
-    --surface:  #17171a;
-    --card:     #1f1f24;
-    --border:   #2e2e36;
-    --gold:     #c9a84c;
-    --gold-dim: #8a6f2e;
-    --red:      #c0392b;
-    --green:    #27ae60;
-    --text:     #e8e4dc;
-    --muted:    #7a7880;
-    --radius:   10px;
+    --bg:#0e0e10;--surface:#17171a;--card:#1f1f24;--border:#2e2e36;
+    --gold:#c9a84c;--gold-dim:#8a6f2e;--red:#c0392b;--green:#27ae60;
+    --text:#e8e4dc;--muted:#7a7880;--radius:10px;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
 
   /* HEADER */
-  header {
-    background: linear-gradient(135deg, #0e0e10 0%, #1a1408 100%);
-    border-bottom: 2px solid var(--gold-dim);
-    padding: 18px 32px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .logo-icon { width:44px;height:44px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0; }
-  header h1 { font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:3px;color:var(--gold);line-height:1; }
-  header p { font-size:0.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px; }
-  .header-badge { margin-left:auto;background:var(--gold);color:#0e0e10;font-family:'Space Mono',monospace;font-size:0.65rem;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:1px; }
+  header{background:linear-gradient(135deg,#0e0e10 0%,#1a1408 100%);border-bottom:2px solid var(--gold-dim);padding:18px 32px;display:flex;align-items:center;gap:16px;}
+  .logo-icon{width:44px;height:44px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  header h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:3px;color:var(--gold);line-height:1;}
+  header p{font-size:0.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+  .header-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+  .header-badge{background:var(--gold);color:#0e0e10;font-family:'Space Mono',monospace;font-size:0.65rem;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:1px;}
+  .help-toggle{background:transparent;border:1px solid var(--gold-dim);color:var(--gold);font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:600;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all 0.15s;}
+  .help-toggle:hover{background:rgba(201,168,76,0.1);}
 
-  main { max-width: 1140px; margin: 0 auto; padding: 32px 24px 64px; }
+  main{max-width:1140px;margin:0 auto;padding:32px 24px 64px;}
 
-  /* API KEY BANNER */
-  .api-banner {
-    background: var(--surface);
-    border: 1px solid var(--gold-dim);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    margin-bottom: 28px;
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  }
-  .api-banner .icon { font-size: 1.4rem; flex-shrink: 0; }
-  .api-banner .text { flex: 1; min-width: 200px; }
-  .api-banner h3 { font-size: 0.88rem; font-weight: 600; color: var(--gold); margin-bottom: 3px; }
-  .api-banner p { font-size: 0.75rem; color: var(--muted); }
-  .api-input-wrap { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
-  .api-input-wrap input {
-    background: var(--card); border: 1px solid var(--border); color: var(--text);
-    font-family: 'Space Mono', monospace; font-size: 0.75rem;
-    padding: 8px 12px; border-radius: 6px; width: 260px;
-    transition: border-color 0.15s;
-  }
-  .api-input-wrap input:focus { outline: none; border-color: var(--gold); }
-  .api-status { font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
-  .api-status.ok { color: var(--green); }
-  .api-status.missing { color: var(--red); }
+  /* HELP PANEL */
+  .help-panel{background:var(--surface);border:1px solid var(--gold-dim);border-radius:var(--radius);margin-bottom:28px;overflow:hidden;display:none;}
+  .help-panel.open{display:block;}
+  .help-panel-inner{padding:28px 32px;}
+  .help-panel h2{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;color:var(--gold);margin-bottom:6px;}
+  .help-panel .tagline{font-size:0.82rem;color:var(--muted);margin-bottom:28px;}
 
-  /* SECTION TITLES */
-  .section-title { font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gold);margin-bottom:12px; }
+  .help-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:28px;}
+  .help-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px;}
+  .help-step .step-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold-dim);line-height:1;margin-bottom:6px;}
+  .help-step h3{font-size:0.9rem;font-weight:600;margin-bottom:6px;}
+  .help-step p{font-size:0.78rem;color:var(--muted);line-height:1.6;}
+  .help-step a{color:var(--gold);text-decoration:none;}
+  .help-step a:hover{text-decoration:underline;}
+  .help-step .step-icon{font-size:1.4rem;margin-bottom:8px;}
 
-  /* UPLOAD MODE TOGGLE */
-  .mode-toggle { display: flex; gap: 10px; margin-bottom: 16px; }
-  .mode-btn {
-    padding: 8px 18px; border-radius: 6px; border: 1px solid var(--border);
-    background: var(--card); color: var(--muted); cursor: pointer;
-    font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
-    transition: all 0.15s;
-  }
-  .mode-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+  .help-section{margin-bottom:24px;}
+  .help-section h3{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--gold);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+
+  /* FREE BADGE */
+  .free-badge{display:inline-block;background:var(--green);color:#fff;font-family:'Space Mono',monospace;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:1px;margin-left:10px;vertical-align:middle;}
+
+  /* API STEPS */
+  .api-steps{display:flex;flex-direction:column;gap:10px;}
+  .api-step{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 16px;}
+  .api-step .num{background:var(--gold);color:#0e0e10;font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .api-step .content{flex:1;}
+  .api-step .content strong{font-size:0.85rem;display:block;margin-bottom:3px;color:var(--text);}
+  .api-step .content span{font-size:0.75rem;color:var(--muted);line-height:1.5;}
+  .api-step .content a{color:var(--gold);text-decoration:none;}
+  .api-step .content code{background:var(--bg);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--gold);}
+
+  /* PRICING TABLE */
+  .pricing-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+  .pricing-table th{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:1px;color:var(--gold);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+  .pricing-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);}
+  .pricing-table tr:last-child td{border-bottom:none;}
+  .pricing-table .cost{font-family:'Space Mono',monospace;color:var(--green);}
+
+  /* LINK LEGEND */
+  .link-legend{display:flex;flex-wrap:wrap;gap:10px;}
+  .legend-item{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;flex:1;min-width:200px;}
+  .legend-item .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+  .legend-item .legend-text strong{font-size:0.8rem;display:block;}
+  .legend-item .legend-text span{font-size:0.72rem;color:var(--muted);}
+
+  .help-tip{background:rgba(201,168,76,0.08);border:1px solid var(--gold-dim);border-radius:8px;padding:12px 16px;font-size:0.78rem;color:var(--muted);line-height:1.6;margin-top:16px;}
+  .help-tip strong{color:var(--gold);}
+
+  .gemini-note{background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:14px 18px;font-size:0.8rem;color:var(--text);line-height:1.7;margin-bottom:20px;}
+  .gemini-note strong{color:var(--green);}
+
+  /* API BANNER */
+  .api-banner{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .api-banner .icon{font-size:1.3rem;flex-shrink:0;}
+  .api-banner .text{flex:1;min-width:160px;}
+  .api-banner h3{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:2px;}
+  .api-banner p{font-size:0.72rem;color:var(--muted);}
+  .api-banner p a{color:var(--gold);text-decoration:none;cursor:pointer;}
+  .api-banner p a:hover{text-decoration:underline;}
+  .api-input-wrap{display:flex;gap:8px;align-items:center;}
+  .api-input-wrap input{background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:0.75rem;padding:8px 12px;border-radius:6px;width:250px;transition:border-color 0.15s;}
+  .api-input-wrap input:focus{outline:none;border-color:var(--gold);}
+  .api-status{font-size:0.72rem;font-weight:700;white-space:nowrap;}
+  .api-status.ok{color:var(--green);}
+  .api-status.missing{color:var(--red);}
+
+  /* SECTION TITLE */
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gold);margin-bottom:12px;}
+
+  /* MODE TOGGLE */
+  .mode-toggle{display:flex;gap:10px;margin-bottom:14px;}
+  .mode-btn{padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:600;transition:all 0.15s;}
+  .mode-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.08);}
 
   /* DROP ZONES */
-  .drop-zones { display: grid; grid-template-columns: 1fr; gap: 12px; }
-  .drop-zones.pair-mode { grid-template-columns: 1fr 1fr; }
-  .drop-zone {
-    border: 2px dashed var(--border); border-radius: var(--radius);
-    background: var(--surface); padding: 28px 20px; text-align: center;
-    cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative;
-  }
-  .drop-zone:hover, .drop-zone.dragover { border-color: var(--gold); background: #1a1a1f; }
-  .drop-zone input[type=file] { position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%; }
-  .drop-zone .drop-icon { font-size: 2rem; margin-bottom: 8px; }
-  .drop-zone h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
-  .drop-zone p { font-size: 0.75rem; color: var(--muted); }
-  .drop-zone .zone-label {
-    display: inline-block; background: var(--gold); color: #0e0e10;
-    font-size: 0.65rem; font-weight: 700; padding: 2px 8px;
-    border-radius: 4px; letter-spacing: 1px; margin-bottom: 8px;
-  }
+  .drop-zones{display:grid;grid-template-columns:1fr;gap:12px;}
+  .drop-zones.pair-mode{grid-template-columns:1fr 1fr;}
+  .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);background:var(--surface);padding:28px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;}
+  .drop-zone:hover,.drop-zone.dragover{border-color:var(--gold);background:#1a1a1f;}
+  .drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .drop-zone .drop-icon{font-size:2rem;margin-bottom:8px;}
+  .drop-zone h3{font-size:0.9rem;font-weight:600;margin-bottom:4px;}
+  .drop-zone p{font-size:0.75rem;color:var(--muted);}
+  .zone-label{display:inline-block;background:var(--gold);color:#0e0e10;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:1px;margin-bottom:8px;}
 
-  /* PAIR QUEUE */
-  .pair-queue { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
-  .pair-item {
-    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 10px 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  }
-  .pair-item img { width: 44px; height: 58px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); flex-shrink: 0; }
-  .pair-item .pair-info { flex: 1; min-width: 120px; }
-  .pair-item .pair-name { font-size: 0.8rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
-  .pair-item .pair-sub { font-size: 0.7rem; color: var(--muted); }
-  .pair-badge {
-    font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;
-    letter-spacing: 0.5px; white-space: nowrap;
-  }
-  .badge-pending { background: rgba(122,120,128,0.2); color: var(--muted); }
-  .badge-scanning { background: rgba(201,168,76,0.2); color: var(--gold); }
-  .badge-done { background: rgba(39,174,96,0.2); color: var(--green); }
-  .badge-error { background: rgba(192,57,43,0.2); color: #e74c3c; }
+  /* QUEUE */
+  .pair-queue{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+  .pair-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .pair-item img{width:36px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border);flex-shrink:0;}
+  .pair-item .pair-info{flex:1;min-width:120px;}
+  .pair-item .pair-name{font-size:0.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;}
+  .pair-item .pair-sub{font-size:0.7rem;color:var(--muted);}
+  .pair-badge{font-size:0.65rem;font-weight:700;padding:3px 9px;border-radius:4px;letter-spacing:0.5px;white-space:nowrap;}
+  .badge-pending{background:rgba(122,120,128,0.15);color:var(--muted);}
+  .badge-scanning{background:rgba(201,168,76,0.15);color:var(--gold);}
+  .badge-done{background:rgba(39,174,96,0.15);color:var(--green);}
+  .badge-error{background:rgba(192,57,43,0.15);color:#e74c3c;}
 
   /* BUTTONS */
-  .btn { padding:9px 20px;border-radius:6px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:600;transition:all 0.15s;display:inline-flex;align-items:center;gap:6px; }
-  .btn-gold { background:var(--gold);color:#0e0e10; }
-  .btn-gold:hover { background:#dab95a; }
-  .btn-gold:disabled { background:var(--gold-dim);cursor:not-allowed;opacity:0.6; }
-  .btn-outline { background:transparent;border:1px solid var(--border);color:var(--text); }
-  .btn-outline:hover { border-color:var(--gold);color:var(--gold); }
-  .btn-sm { padding:5px 12px;font-size:0.75rem; }
-  .btn-danger { background:var(--red);color:#fff; }
-  .btn-danger:hover { background:#a93226; }
-
-  .queue-controls { display:flex;align-items:center;justify-content:space-between;margin:16px 0 10px;flex-wrap:wrap;gap:8px; }
+  .btn{padding:9px 20px;border-radius:6px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:600;transition:all 0.15s;display:inline-flex;align-items:center;gap:6px;}
+  .btn-gold{background:var(--gold);color:#0e0e10;}
+  .btn-gold:hover{background:#dab95a;}
+  .btn-gold:disabled{background:var(--gold-dim);cursor:not-allowed;opacity:0.6;}
+  .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+  .btn-sm{padding:5px 12px;font-size:0.75rem;}
+  .queue-controls{display:flex;align-items:center;justify-content:space-between;margin:16px 0 10px;flex-wrap:wrap;gap:8px;}
 
   /* PROGRESS */
-  .progress-wrap { margin: 14px 0; }
-  .progress-label { font-size:0.75rem;color:var(--muted);text-align:center;margin-bottom:6px;font-family:'Space Mono',monospace; }
-  .progress-bar-wrap { background:var(--card);border-radius:20px;height:8px;overflow:hidden; }
-  .progress-bar-fill { height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:20px;transition:width 0.4s ease;width:0%; }
+  .progress-wrap{margin:14px 0;}
+  .progress-label{font-size:0.75rem;color:var(--muted);text-align:center;margin-bottom:6px;font-family:'Space Mono',monospace;}
+  .progress-bar-wrap{background:var(--card);border-radius:20px;height:8px;overflow:hidden;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:20px;transition:width 0.4s ease;width:0%;}
 
   /* STATS */
-  .stats-bar { display:flex;gap:24px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px; }
-  .stat .num { font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);line-height:1; }
-  .stat .label { font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px; }
+  .stats-bar{display:flex;gap:24px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;}
+  .stat .num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);line-height:1;}
+  .stat .label{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
 
   /* TABLE */
-  .results-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px; }
-  .export-buttons { display:flex;gap:8px;flex-wrap:wrap; }
-  .table-wrap { overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border); }
-  table { width:100%;border-collapse:collapse;font-size:0.8rem; }
-  thead { background:#0e0e10; }
-  thead th { font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding:12px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap; }
-  tbody tr { border-bottom:1px solid var(--border);transition:background 0.1s; }
-  tbody tr:last-child { border-bottom:none; }
-  tbody tr:hover { background:var(--surface); }
-  tbody td { padding:8px 12px;vertical-align:middle; }
-  td.muted { color:var(--muted);font-size:0.72rem; }
-  td input {
-    background:transparent;border:1px solid transparent;color:var(--text);
-    font-family:'Inter',sans-serif;font-size:0.8rem;padding:3px 6px;border-radius:4px;
-    width:100%;min-width:70px;transition:border-color 0.15s;
-  }
-  td input:focus { outline:none;border-color:var(--gold);background:var(--bg); }
-  .thumb-cell img { width:30px;height:40px;object-fit:cover;border-radius:3px;border:1px solid var(--border); }
+  .results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+  .export-buttons{display:flex;gap:8px;flex-wrap:wrap;}
+  .table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+  thead{background:#0e0e10;}
+  thead th{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding:11px 11px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+  tbody tr{border-bottom:1px solid var(--border);transition:background 0.1s;}
+  tbody tr:last-child{border-bottom:none;}
+  tbody tr:hover{background:var(--surface);}
+  tbody td{padding:8px 11px;vertical-align:middle;}
+  td.muted{color:var(--muted);font-size:0.72rem;}
+  td input{background:transparent;border:1px solid transparent;color:var(--text);font-family:'Inter',sans-serif;font-size:0.8rem;padding:3px 6px;border-radius:4px;width:100%;min-width:68px;transition:border-color 0.15s;}
+  td input:focus{outline:none;border-color:var(--gold);background:var(--bg);}
+  .thumb-cell img{width:30px;height:40px;object-fit:cover;border-radius:3px;border:1px solid var(--border);}
 
   /* PRICE LINKS */
-  .price-links { display:flex;flex-direction:column;gap:4px;min-width:120px; }
-  .pl-btn {
-    display:inline-flex;align-items:center;gap:4px;border:none;border-radius:4px;
-    padding:3px 8px;font-size:0.68rem;font-weight:700;cursor:pointer;
-    text-decoration:none;white-space:nowrap;transition:opacity 0.15s;
-  }
-  .pl-btn:hover { opacity:0.82; }
-  .pl-ebay-sold { background:#e53935;color:#fff; }
-  .pl-ebay-active { background:#1565c0;color:#fff; }
-  .pl-130pt { background:#2e7d32;color:#fff; }
-  .pl-beckett { background:#4a148c;color:#fff; }
-  .pl-comc { background:#e65100;color:#fff; }
+  .price-links{display:flex;flex-direction:column;gap:4px;min-width:118px;}
+  .pl-btn{display:inline-flex;align-items:center;gap:4px;border:none;border-radius:4px;padding:3px 8px;font-size:0.67rem;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap;transition:opacity 0.15s;}
+  .pl-btn:hover{opacity:0.8;}
+  .pl-ebay-sold{background:#c62828;color:#fff;}
+  .pl-ebay-active{background:#1565c0;color:#fff;}
+  .pl-130pt{background:#2e7d32;color:#fff;}
+  .pl-beckett{background:#4a148c;color:#fff;}
+  .pl-comc{background:#e65100;color:#fff;}
 
-  .tag { display:inline-block;background:var(--card);border:1px solid var(--border);border-radius:4px;font-size:0.62rem;padding:2px 6px;color:var(--muted);white-space:nowrap;margin:1px; }
-  .tag.special { border-color:var(--gold-dim);color:var(--gold); }
+  .tag{display:inline-block;background:var(--card);border:1px solid var(--border);border-radius:4px;font-size:0.62rem;padding:2px 6px;color:var(--muted);white-space:nowrap;margin:1px;}
+  .tag.special{border-color:var(--gold-dim);color:var(--gold);}
 
   /* TOAST */
-  .toast { position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);color:var(--text);padding:12px 18px;border-radius:8px;font-size:0.82rem;max-width:300px;z-index:999;opacity:0;transform:translateY(10px);transition:all 0.25s;pointer-events:none; }
-  .toast.show { opacity:1;transform:translateY(0); }
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);color:var(--text);padding:12px 18px;border-radius:8px;font-size:0.82rem;max-width:300px;z-index:999;opacity:0;transform:translateY(10px);transition:all 0.25s;pointer-events:none;}
+  .toast.show{opacity:1;transform:translateY(0);}
 
-  @media (max-width: 600px) {
-    .drop-zones.pair-mode { grid-template-columns: 1fr; }
-    header { padding: 14px 16px; }
-    main { padding: 20px 14px 48px; }
+  /* FOOTER */
+  footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);font-size:0.72rem;color:var(--muted);}
+  footer a{color:var(--gold);text-decoration:none;}
+
+  @media(max-width:640px){
+    .drop-zones.pair-mode{grid-template-columns:1fr;}
+    header{padding:14px 16px;}
+    header h1{font-size:1.5rem;}
+    main{padding:20px 14px 48px;}
+    .help-panel-inner{padding:20px 16px;}
+    .api-input-wrap input{width:180px;}
   }
 </style>
 </head>
@@ -195,39 +203,164 @@
     <h1>Card Vault</h1>
     <p>AI Sports Card Cataloger</p>
   </div>
-  <div class="header-badge">v1.1</div>
+  <div class="header-right">
+    <button class="help-toggle" onclick="toggleHelp()">📖 How It Works</button>
+    <div class="header-badge">FREE ✓</div>
+  </div>
 </header>
 
 <main>
 
-  <!-- API KEY -->
+  <!-- HELP PANEL -->
+  <div class="help-panel" id="helpPanel">
+    <div class="help-panel-inner">
+
+      <h2>How to Use Card Vault <span class="free-badge">100% FREE</span></h2>
+      <p class="tagline">Upload photos of your sports cards — AI reads every detail and builds you a spreadsheet with price lookup links. No credit card needed.</p>
+
+      <div class="gemini-note">
+        🟢 <strong>Powered by Google Gemini Flash</strong> — completely free AI with no credit card required.
+        Google gives you <strong>1,500 free card scans per day</strong>. A Google account is all you need.
+        Get your free API key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--green)">aistudio.google.com</a> in about 2 minutes.
+      </div>
+
+      <!-- OVERVIEW -->
+      <div class="help-steps">
+        <div class="help-step">
+          <div class="step-icon">🔑</div>
+          <div class="step-num">01</div>
+          <h3>Get Your Free API Key</h3>
+          <p>Grab a free Google Gemini API key — no credit card, just a Google account. <a onclick="scrollToApiSteps()">Step-by-step below →</a></p>
+        </div>
+        <div class="help-step">
+          <div class="step-icon">📸</div>
+          <div class="step-num">02</div>
+          <h3>Upload Card Photos</h3>
+          <p>Drag & drop single photos, entire lots, or use <strong>Front + Back mode</strong> to pair both sides for maximum accuracy.</p>
+        </div>
+        <div class="help-step">
+          <div class="step-icon">🤖</div>
+          <div class="step-num">03</div>
+          <h3>AI Scans Everything</h3>
+          <p>Gemini extracts player name, year, brand, card number, team, position, condition, special tags, and more.</p>
+        </div>
+        <div class="help-step">
+          <div class="step-icon">✏️</div>
+          <div class="step-num">04</div>
+          <h3>Review & Edit</h3>
+          <p>Every field is editable. AI is very good but not perfect — especially on worn or sideways cards. Double-check before exporting!</p>
+        </div>
+        <div class="help-step">
+          <div class="step-icon">🔗</div>
+          <div class="step-num">05</div>
+          <h3>Look Up Prices</h3>
+          <p>Each card gets 5 one-click price lookup buttons — eBay Sold, eBay Active, 130point, Beckett, and COMC.</p>
+        </div>
+        <div class="help-step">
+          <div class="step-icon">📊</div>
+          <div class="step-num">06</div>
+          <h3>Export</h3>
+          <p>Download as <strong>CSV</strong> or <strong>Excel</strong> (includes a Summary tab). Ready for any platform or spreadsheet app.</p>
+        </div>
+      </div>
+
+      <!-- GET API KEY -->
+      <div class="help-section" id="apiStepsSection">
+        <h3>🔑 Getting Your Free Google Gemini API Key</h3>
+        <div class="api-steps">
+          <div class="api-step">
+            <div class="num">1</div>
+            <div class="content">
+              <strong>Go to Google AI Studio</strong>
+              <span>Visit <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> — sign in with your Google account. No sign-up needed, just your existing Google login.</span>
+            </div>
+          </div>
+          <div class="api-step">
+            <div class="num">2</div>
+            <div class="content">
+              <strong>Click "Create API Key"</strong>
+              <span>Hit the blue <strong>Create API Key</strong> button. Choose <strong>Create API key in new project</strong> from the dropdown. It generates instantly.</span>
+            </div>
+          </div>
+          <div class="api-step">
+            <div class="num">3</div>
+            <div class="content">
+              <strong>Copy your key</strong>
+              <span>Your key looks like <code>AIzaSy...</code> — click the copy icon next to it. Save it somewhere safe like a notes app. You can always come back to this page to get it again.</span>
+            </div>
+          </div>
+          <div class="api-step">
+            <div class="num">4</div>
+            <div class="content">
+              <strong>Paste it into Card Vault</strong>
+              <span>Enter your key in the API Key field below — it turns green when valid. Your key stays in your browser only and is never stored or sent anywhere else.</span>
+            </div>
+          </div>
+        </div>
+        <div class="help-tip">
+          🔒 <strong>Privacy:</strong> Your API key is held only in your browser's memory for this session. Close the tab and it's gone. Card Vault has no backend server — scans go directly from your browser to Google's API.<br><br>
+          💸 <strong>Cost:</strong> The free tier gives you <strong>1,500 requests/day and 1 million tokens/minute</strong> — more than enough for even large collections. No billing required.
+        </div>
+      </div>
+
+      <!-- PRICING -->
+      <div class="help-section">
+        <h3>💰 How Many Cards Can I Scan for Free?</h3>
+        <table class="pricing-table">
+          <thead><tr><th>Scan Session</th><th>Cost</th><th>Daily Free Limit</th></tr></thead>
+          <tbody>
+            <tr><td>12 cards (one lot photo)</td><td class="cost">$0.00</td><td style="color:var(--muted);font-size:0.75rem">Well within free tier</td></tr>
+            <tr><td>100 cards</td><td class="cost">$0.00</td><td style="color:var(--muted);font-size:0.75rem">Still free!</td></tr>
+            <tr><td>500 cards</td><td class="cost">$0.00</td><td style="color:var(--muted);font-size:0.75rem">Free tier limit is 1,500/day</td></tr>
+            <tr><td>1,500 cards</td><td class="cost">$0.00</td><td style="color:var(--muted);font-size:0.75rem">Maximum free scans per day</td></tr>
+          </tbody>
+        </table>
+        <div class="help-tip">Front + Back pair mode uses 2 images per card — so 750 pairs per day free. Still very generous!</div>
+      </div>
+
+      <!-- PRICE LOOKUP LEGEND -->
+      <div class="help-section">
+        <h3>🔗 Price Lookup Buttons Explained</h3>
+        <div class="link-legend">
+          <div class="legend-item"><div class="dot" style="background:#c62828"></div><div class="legend-text"><strong>eBay Sold</strong><span>Completed listings — best for real current market value</span></div></div>
+          <div class="legend-item"><div class="dot" style="background:#1565c0"></div><div class="legend-text"><strong>eBay Active</strong><span>Live listings — what sellers are asking right now</span></div></div>
+          <div class="legend-item"><div class="dot" style="background:#2e7d32"></div><div class="legend-text"><strong>130point</strong><span>Historical sales data with trend charts</span></div></div>
+          <div class="legend-item"><div class="dot" style="background:#4a148c"></div><div class="legend-text"><strong>Beckett</strong><span>Industry standard price guide for graded and raw cards</span></div></div>
+          <div class="legend-item"><div class="dot" style="background:#e65100"></div><div class="legend-text"><strong>COMC</strong><span>Check Out My Cards — collector marketplace with history</span></div></div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn btn-outline" onclick="toggleHelp()">Got it — let's scan some cards! 🃏</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- API KEY BAR -->
   <div class="api-banner">
-    <div class="icon">🔑</div>
+    <div class="icon">🟢</div>
     <div class="text">
-      <h3>Anthropic API Key Required</h3>
-      <p>Your key stays in your browser only — never stored or sent anywhere else. Get one free at <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold)">console.anthropic.com</a></p>
+      <h3>Google Gemini API Key <span style="font-size:0.7rem;color:var(--green);font-weight:700;">FREE</span></h3>
+      <p>No credit card needed — just a Google account. <a onclick="openHelp()">How do I get one? (2 min)</a> &nbsp;·&nbsp; Key stays in your browser only.</p>
     </div>
     <div class="api-input-wrap">
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." oninput="checkApiKey()" />
+      <input type="password" id="apiKeyInput" placeholder="AIzaSy..." oninput="checkApiKey()" />
       <span class="api-status missing" id="apiStatus">⚠ Not set</span>
     </div>
   </div>
 
-  <!-- UPLOAD MODE -->
-  <div class="upload-section" style="margin-bottom:28px">
+  <!-- UPLOAD -->
+  <div style="margin-bottom:28px">
     <div class="section-title">📤 Upload Card Photos</div>
-
     <div class="mode-toggle">
-      <button class="mode-btn active" id="modeSingle" onclick="setMode('single')">📸 Single / Batch Upload</button>
+      <button class="mode-btn active" id="modeSingle" onclick="setMode('single')">📸 Single / Batch</button>
       <button class="mode-btn" id="modePair" onclick="setMode('pair')">🔄 Front + Back Pairs</button>
     </div>
     <p style="font-size:0.75rem;color:var(--muted);margin-bottom:14px" id="modeHint">
-      Upload one or many card photos — each photo gets scanned. Great for lot photos with multiple cards.
+      Upload one or many card photos at once. Great for lot photos showing multiple cards.
     </p>
-
-    <div class="drop-zones" id="dropZones">
-      <!-- rendered by JS -->
-    </div>
+    <div class="drop-zones" id="dropZones"></div>
   </div>
 
   <!-- QUEUE -->
@@ -255,7 +388,6 @@
       <div class="stat"><div class="num" id="statBrands">0</div><div class="label">Brands</div></div>
       <div class="stat"><div class="num" id="statPositions">0</div><div class="label">Positions</div></div>
     </div>
-
     <div class="results-header">
       <div class="section-title" style="margin:0">📋 Card Catalog</div>
       <div class="export-buttons">
@@ -263,82 +395,77 @@
         <button class="btn btn-gold btn-sm" onclick="exportExcel()">⬇️ Excel</button>
       </div>
     </div>
-
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Photo</th>
-            <th>#</th>
-            <th>Player Name</th>
-            <th>Year</th>
-            <th>Brand</th>
-            <th>Set Name</th>
-            <th>Card #</th>
-            <th>Team</th>
-            <th>Position</th>
-            <th>Sport</th>
-            <th>Special Tags</th>
-            <th>Condition</th>
-            <th>Price Lookup</th>
+            <th>Photo</th><th>#</th><th>Player Name</th><th>Year</th>
+            <th>Brand</th><th>Set Name</th><th>Card #</th><th>Team</th>
+            <th>Position</th><th>Sport</th><th>Special Tags</th>
+            <th>Condition</th><th>Price Lookup</th>
           </tr>
         </thead>
         <tbody id="resultsBody"></tbody>
       </table>
     </div>
-    <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;">💡 Click any cell to edit before exporting. Price links open eBay sold listings, 130point, Beckett & COMC in a new tab.</p>
+    <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;">
+      💡 Click any cell to edit before exporting. AI is very accurate but double-check worn or angled cards!
+    </p>
   </div>
 
 </main>
+
+<footer>
+  Built by <a href="https://github.com/ad0rkableg33k" target="_blank">ad0rkableg33k</a> &amp; BabyyBat &amp; G33KY &nbsp;·&nbsp;
+  Powered by <a href="https://deepmind.google/technologies/gemini/" target="_blank">Google Gemini Flash</a> &nbsp;·&nbsp;
+  <a href="https://github.com/ad0rkableg33k/card-vault" target="_blank">View on GitHub</a>
+</footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
 // ══ STATE ══
-let mode = 'single';
-let queue = [];   // { id, frontFile, frontUrl, backFile, backUrl, status, data }
-let results = [];
-let scanning = false;
+let mode='single',queue=[],results=[],scanning=false;
+
+// ══ HELP ══
+function toggleHelp(){const p=document.getElementById('helpPanel');p.classList.toggle('open');window.scrollTo({top:0,behavior:'smooth'});}
+function openHelp(){document.getElementById('helpPanel').classList.add('open');window.scrollTo({top:0,behavior:'smooth'});}
+function scrollToApiSteps(){document.getElementById('apiStepsSection').scrollIntoView({behavior:'smooth',block:'start'});}
 
 // ══ API KEY ══
-function getApiKey() { return document.getElementById('apiKeyInput').value.trim(); }
-function checkApiKey() {
-  const key = getApiKey();
-  const el = document.getElementById('apiStatus');
-  if (key.startsWith('sk-ant-')) {
-    el.textContent = '✓ Ready'; el.className = 'api-status ok';
-  } else {
-    el.textContent = '⚠ Not set'; el.className = 'api-status missing';
-  }
+function getApiKey(){return document.getElementById('apiKeyInput').value.trim();}
+function checkApiKey(){
+  const key=getApiKey(),el=document.getElementById('apiStatus');
+  if(key.startsWith('AIza')){el.textContent='✓ Ready';el.className='api-status ok';}
+  else{el.textContent='⚠ Not set';el.className='api-status missing';}
 }
 
 // ══ MODE ══
-function setMode(m) {
-  mode = m;
-  document.getElementById('modeSingle').classList.toggle('active', m==='single');
-  document.getElementById('modePair').classList.toggle('active', m==='pair');
-  document.getElementById('modeHint').textContent = m === 'single'
-    ? 'Upload one or many card photos — each photo gets scanned. Great for lot photos with multiple cards.'
-    : 'Upload front photo + back photo for each card. AI reads both for maximum accuracy (card number, stats, birthplace, etc).';
+function setMode(m){
+  mode=m;
+  document.getElementById('modeSingle').classList.toggle('active',m==='single');
+  document.getElementById('modePair').classList.toggle('active',m==='pair');
+  document.getElementById('modeHint').textContent=m==='single'
+    ?'Upload one or many card photos at once. Great for lot photos showing multiple cards.'
+    :'Upload front and back photos as pairs — AI reads both sides for maximum accuracy.';
   renderDropZones();
 }
 
-function renderDropZones() {
-  const wrap = document.getElementById('dropZones');
-  if (mode === 'single') {
-    wrap.className = 'drop-zones';
-    wrap.innerHTML = `
-      <div class="drop-zone" id="dz-single">
-        <input type="file" id="fi-single" accept="image/*" multiple />
-        <div class="drop-icon">📸</div>
-        <h3>Drop card photos here or click to browse</h3>
-        <p>JPG · PNG · WEBP · HEIC — batch OK</p>
-      </div>`;
-    document.getElementById('fi-single').addEventListener('change', e => addFiles(Array.from(e.target.files), 'front'));
-    setupDrop('dz-single', files => addFiles(files, 'front'));
-  } else {
-    wrap.className = 'drop-zones pair-mode';
-    wrap.innerHTML = `
+function renderDropZones(){
+  const wrap=document.getElementById('dropZones');
+  if(mode==='single'){
+    wrap.className='drop-zones';
+    wrap.innerHTML=`<div class="drop-zone" id="dz-single">
+      <input type="file" id="fi-single" accept="image/*" multiple />
+      <div class="drop-icon">📸</div>
+      <h3>Drop card photos here or click to browse</h3>
+      <p>JPG · PNG · WEBP · HEIC — batch OK</p>
+    </div>`;
+    document.getElementById('fi-single').addEventListener('change',e=>addFiles(Array.from(e.target.files),'front'));
+    setupDrop('dz-single',files=>addFiles(files,'front'));
+  }else{
+    wrap.className='drop-zones pair-mode';
+    wrap.innerHTML=`
       <div class="drop-zone" id="dz-front">
         <input type="file" id="fi-front" accept="image/*" multiple />
         <div class="zone-label">FRONT</div>
@@ -351,41 +478,33 @@ function renderDropZones() {
         <div class="zone-label">BACK</div>
         <div class="drop-icon">🔄</div>
         <h3>Card Backs</h3>
-        <p>Drop all back photos here (match order with fronts)</p>
+        <p>Drop back photos here (same order as fronts)</p>
       </div>`;
-    document.getElementById('fi-front').addEventListener('change', e => addFiles(Array.from(e.target.files), 'front'));
-    document.getElementById('fi-back').addEventListener('change', e => addFiles(Array.from(e.target.files), 'back'));
-    setupDrop('dz-front', files => addFiles(files, 'front'));
-    setupDrop('dz-back', files => addFiles(files, 'back'));
+    document.getElementById('fi-front').addEventListener('change',e=>addFiles(Array.from(e.target.files),'front'));
+    document.getElementById('fi-back').addEventListener('change',e=>addFiles(Array.from(e.target.files),'back'));
+    setupDrop('dz-front',files=>addFiles(files,'front'));
+    setupDrop('dz-back',files=>addFiles(files,'back'));
   }
 }
 
-function setupDrop(id, cb) {
-  const el = document.getElementById(id);
-  el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('dragover'); });
-  el.addEventListener('dragleave', () => el.classList.remove('dragover'));
-  el.addEventListener('drop', e => { e.preventDefault(); el.classList.remove('dragover'); cb(Array.from(e.dataTransfer.files)); });
+function setupDrop(id,cb){
+  const el=document.getElementById(id);
+  el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('dragover');});
+  el.addEventListener('dragleave',()=>el.classList.remove('dragover'));
+  el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('dragover');cb(Array.from(e.dataTransfer.files));});
 }
 
 // ══ ADD FILES ══
-function addFiles(files, side) {
-  const imgs = files.filter(f => f.type.startsWith('image/') || f.name.match(/\.(jpe?g|png|webp|heic)$/i));
-  if (!imgs.length) { showToast('No image files found.'); return; }
-
-  if (mode === 'single' || side === 'front') {
-    imgs.forEach(f => {
-      queue.push({ id: crypto.randomUUID(), frontFile: f, frontUrl: URL.createObjectURL(f), backFile: null, backUrl: null, status: 'pending', data: null });
-    });
+function addFiles(files,side){
+  const imgs=files.filter(f=>f.type.startsWith('image/')||f.name.match(/\.(jpe?g|png|webp|heic)$/i));
+  if(!imgs.length){showToast('No image files found.');return;}
+  if(mode==='single'||side==='front'){
+    imgs.forEach(f=>queue.push({id:crypto.randomUUID(),frontFile:f,frontUrl:URL.createObjectURL(f),backFile:null,backUrl:null,status:'pending',data:null}));
     showToast(`Added ${imgs.length} photo${imgs.length>1?'s':''}`);
-  } else {
-    // pair backs: match by index
-    imgs.forEach((f, i) => {
-      if (queue[i]) {
-        queue[i].backFile = f;
-        queue[i].backUrl = URL.createObjectURL(f);
-      } else {
-        queue.push({ id: crypto.randomUUID(), frontFile: null, frontUrl: null, backFile: f, backUrl: URL.createObjectURL(f), status: 'pending', data: null });
-      }
+  }else{
+    imgs.forEach((f,i)=>{
+      if(queue[i]){queue[i].backFile=f;queue[i].backUrl=URL.createObjectURL(f);}
+      else queue.push({id:crypto.randomUUID(),frontFile:null,frontUrl:null,backFile:f,backUrl:URL.createObjectURL(f),status:'pending',data:null});
     });
     showToast(`Matched ${imgs.length} back photo${imgs.length>1?'s':''}`);
   }
@@ -393,252 +512,201 @@ function addFiles(files, side) {
 }
 
 // ══ RENDER QUEUE ══
-function renderQueue() {
-  const sec = document.getElementById('queueSection');
-  const list = document.getElementById('pairQueue');
-  document.getElementById('queueCount').textContent = queue.length;
-  if (!queue.length) { sec.style.display='none'; return; }
-  sec.style.display = 'block';
-
-  list.innerHTML = queue.map((item,i) => `
+function renderQueue(){
+  const sec=document.getElementById('queueSection'),list=document.getElementById('pairQueue');
+  document.getElementById('queueCount').textContent=queue.length;
+  if(!queue.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  list.innerHTML=queue.map((item,i)=>`
     <div class="pair-item" id="pi-${item.id}">
-      ${item.frontUrl ? `<img src="${item.frontUrl}" title="Front" />` : '<div style="width:30px;height:40px;background:var(--card);border-radius:4px;border:1px dashed var(--border)"></div>'}
-      ${item.backUrl  ? `<img src="${item.backUrl}"  title="Back"  />` : (mode==='pair'?'<div style="width:30px;height:40px;background:var(--card);border-radius:4px;border:1px dashed var(--border);opacity:0.4"></div>':'')}
+      ${item.frontUrl?`<img src="${item.frontUrl}" title="Front" />`:'<div style="width:36px;height:48px;background:var(--card);border-radius:4px;border:1px dashed var(--border)"></div>'}
+      ${item.backUrl?`<img src="${item.backUrl}" title="Back" />`:(mode==='pair'?'<div style="width:36px;height:48px;background:var(--card);border-radius:4px;border:1px dashed var(--border);opacity:0.4"></div>':'')}
       <div class="pair-info">
-        <div class="pair-name">${item.frontFile?.name || item.backFile?.name || 'Card '+(i+1)}</div>
-        <div class="pair-sub">${item.backFile ? '✓ Front + Back' : 'Front only'}</div>
+        <div class="pair-name">${esc(item.frontFile?.name||item.backFile?.name||'Card '+(i+1))}</div>
+        <div class="pair-sub">${item.backFile?'✓ Front + Back':'Front only'}</div>
       </div>
-      <span class="pair-badge badge-${item.status}">${
-        item.status==='scanning'?'⏳ Scanning':item.status==='done'?'✓ Done':item.status==='error'?'✗ Error':'Pending'
-      }</span>
+      <span class="pair-badge badge-${item.status}">${item.status==='scanning'?'⏳ Scanning':item.status==='done'?'✓ Done':item.status==='error'?'✗ Error':'Pending'}</span>
       <button class="btn btn-outline btn-sm" onclick="removeItem('${item.id}')" style="padding:4px 8px;font-size:0.7rem">✕</button>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function removeItem(id) { queue = queue.filter(q=>q.id!==id); renderQueue(); }
-function clearQueue() { queue=[]; renderQueue(); }
+function removeItem(id){queue=queue.filter(q=>q.id!==id);renderQueue();}
+function clearQueue(){queue=[];renderQueue();}
 
 // ══ SCAN ══
-async function startScan() {
-  if (scanning) return;
-  const key = getApiKey();
-  if (!key.startsWith('sk-ant-')) { showToast('⚠️ Please enter your Anthropic API key first!'); return; }
-  if (!queue.length) { showToast('Add some card photos first!'); return; }
-
-  scanning = true;
-  document.getElementById('scanBtn').disabled = true;
-  document.getElementById('progressWrap').style.display = 'block';
-
-  const pending = queue.filter(q=>q.status!=='done');
-  let done = 0;
-
-  for (const item of pending) {
-    updateProgress(done, pending.length, `Scanning card ${done+1} of ${pending.length}...`);
-    setItemStatus(item, 'scanning');
-    try {
-      const data = await analyzeCard(item, key);
-      item.status = 'done'; item.data = data;
-      results.push({ ...data, _frontUrl: item.frontUrl, _backUrl: item.backUrl, _id: item.id });
-      setItemStatus(item, 'done');
-    } catch(e) {
-      item.status = 'error'; setItemStatus(item, 'error');
-      console.error(e);
-    }
+async function startScan(){
+  if(scanning)return;
+  const key=getApiKey();
+  if(!key.startsWith('AIza')){showToast('⚠️ Please enter your Google Gemini API key first!');openHelp();return;}
+  if(!queue.length){showToast('Add some card photos first!');return;}
+  scanning=true;
+  document.getElementById('scanBtn').disabled=true;
+  document.getElementById('progressWrap').style.display='block';
+  const pending=queue.filter(q=>q.status!=='done');
+  let done=0;
+  for(const item of pending){
+    updateProgress(done,pending.length,`Scanning card ${done+1} of ${pending.length}...`);
+    setItemStatus(item,'scanning');
+    try{
+      const data=await analyzeCard(item,key);
+      item.status='done';item.data=data;
+      results.push({...data,_frontUrl:item.frontUrl,_backUrl:item.backUrl,_id:item.id});
+      setItemStatus(item,'done');
+    }catch(e){item.status='error';setItemStatus(item,'error');console.error(e);}
     done++;
-    updateProgress(done, pending.length, `Scanned ${done} of ${pending.length}`);
+    updateProgress(done,pending.length,`Scanned ${done} of ${pending.length}`);
   }
-
-  scanning = false;
-  document.getElementById('scanBtn').disabled = false;
-  document.getElementById('progressWrap').style.display = 'none';
-  renderQueue();
-  renderResults();
+  scanning=false;
+  document.getElementById('scanBtn').disabled=false;
+  document.getElementById('progressWrap').style.display='none';
+  renderQueue();renderResults();
   showToast(`✅ Done! ${results.length} card${results.length!==1?'s':''} cataloged.`);
 }
 
-function setItemStatus(item, status) {
-  item.status = status;
-  const el = document.querySelector(`#pi-${item.id} .pair-badge`);
-  if (!el) return;
-  el.className = `pair-badge badge-${status}`;
-  el.textContent = status==='scanning'?'⏳ Scanning':status==='done'?'✓ Done':status==='error'?'✗ Error':'Pending';
+function setItemStatus(item,status){
+  item.status=status;
+  const el=document.querySelector(`#pi-${item.id} .pair-badge`);
+  if(!el)return;
+  el.className=`pair-badge badge-${status}`;
+  el.textContent=status==='scanning'?'⏳ Scanning':status==='done'?'✓ Done':status==='error'?'✗ Error':'Pending';
+}
+function updateProgress(done,total,label){
+  document.getElementById('progressBar').style.width=(total?Math.round(done/total*100):0)+'%';
+  document.getElementById('progressLabel').textContent=label;
 }
 
-function updateProgress(done, total, label) {
-  document.getElementById('progressBar').style.width = (total?Math.round(done/total*100):0)+'%';
-  document.getElementById('progressLabel').textContent = label;
-}
-
-// ══ AI ANALYSIS ══
-async function analyzeCard(item, apiKey) {
-  const content = [];
-
-  if (item.frontFile) {
-    const b64 = await toBase64(item.frontFile);
-    content.push({ type:'image', source:{ type:'base64', media_type: item.frontFile.type||'image/jpeg', data:b64 }});
-    content.push({ type:'text', text:'[CARD FRONT]' });
-  }
-  if (item.backFile) {
-    const b64 = await toBase64(item.backFile);
-    content.push({ type:'image', source:{ type:'base64', media_type: item.backFile.type||'image/jpeg', data:b64 }});
-    content.push({ type:'text', text:'[CARD BACK]' });
-  }
-
-  content.push({ type:'text', text:`You are a professional sports card grader and cataloger with expert knowledge of all card sets from 1950–present.
-
-Analyze this sports card carefully (front and/or back provided) and extract EVERY piece of information visible.
-
+// ══ GEMINI AI ANALYSIS ══
+async function analyzeCard(item,apiKey){
+  const parts=[];
+  const prompt=`You are a professional sports card grader and cataloger with expert knowledge of all card sets from 1950–present.
+Analyze this sports card carefully and extract EVERY piece of information visible.
 Return ONLY a valid JSON object — no markdown fences, no explanation, no preamble:
 {
-  "player_name": "Full player name as printed, or 'Unknown'",
-  "year": "4-digit year the card was produced, or 'Unknown'",
-  "brand": "Manufacturer brand (Topps, Donruss, Upper Deck, Fleer, Bowman, Score, Leaf, Pacific, Pinnacle, O-Pee-Chee, Stadium Club, Finest, Ultra, Select, etc.) or 'Unknown'",
-  "set_name": "Specific set or series name if visible (e.g. Stadium Club, Finest, Tiffany) — empty string if not shown",
-  "card_number": "Card number exactly as printed (e.g. '#552') — empty string if not visible",
-  "team": "Full team name (e.g. 'Minnesota Twins') or 'Unknown'",
-  "position": "Player position (e.g. Pitcher, Catcher, 1st Base, Outfield, Point Guard, etc.) or 'Unknown'",
+  "player_name": "Full player name as printed, or Unknown",
+  "year": "4-digit year the card was produced, or Unknown",
+  "brand": "Manufacturer brand (Topps, Donruss, Upper Deck, Fleer, Bowman, Score, Leaf, Pacific, Pinnacle, O-Pee-Chee, Stadium Club, Finest, Ultra, Select, etc.) or Unknown",
+  "set_name": "Specific set or series name if visible else empty string",
+  "card_number": "Card number exactly as printed (e.g. 552) else empty string",
+  "team": "Full team name (e.g. Minnesota Twins) or Unknown",
+  "position": "Player position (Pitcher, Catcher, 1st Base, Outfield, Point Guard, etc.) or Unknown",
   "sport": "Baseball, Basketball, Football, Hockey, Soccer, or Other",
-  "special_tags": "Comma-separated list of applicable tags ONLY from: Rookie Card, MVP, All-Star, Hall of Fame, Special Edition, Gold, Chrome, Refractor, Autograph, Patch, Numbered, Error Card, Variation, Team Card, World Series, Playoffs, Draft Pick — empty string if none apply",
+  "special_tags": "Comma-separated applicable tags from: Rookie Card, MVP, All-Star, Hall of Fame, Special Edition, Gold, Chrome, Refractor, Autograph, Patch, Numbered, Error Card, Variation, Team Card, World Series, Playoffs, Draft Pick — empty string if none apply",
   "birth_info": "Birthdate and birthplace if visible on back, else empty string",
-  "condition_notes": "Brief honest condition note based on visible wear: Mint, Near Mint, Excellent, Good, Fair, Poor — add specifics like 'worn corners' or 'off-center' if visible",
-  "notes": "Any other interesting or notable info visible (trade notes, career highlights mentioned, etc.) — empty string if nothing notable"
+  "condition_notes": "Mint, Near Mint, Excellent, Good, Fair, or Poor — add specifics like worn corners if visible",
+  "notes": "Any other notable info visible (trade notes, career highlights, etc.) else empty string"
 }
+If multiple cards are visible, analyze the most prominent one. Be precise — this is used for pricing research.`;
 
-If the photo shows MULTIPLE cards in a lot/sheet, analyze the most clearly visible or prominent card.
-Be precise — this data will be used for pricing research and collector cataloging.` });
+  if(item.frontFile){
+    const b64=await toBase64(item.frontFile);
+    const mime=item.frontFile.type||'image/jpeg';
+    parts.push({inline_data:{mime_type:mime,data:b64}});
+    parts.push({text:'[CARD FRONT]'});
+  }
+  if(item.backFile){
+    const b64=await toBase64(item.backFile);
+    const mime=item.backFile.type||'image/jpeg';
+    parts.push({inline_data:{mime_type:mime,data:b64}});
+    parts.push({text:'[CARD BACK]'});
+  }
+  parts.push({text:prompt});
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:1000, messages:[{ role:'user', content }] })
-  });
+  const res=await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    {method:'POST',headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.1,maxOutputTokens:1024}})}
+  );
 
-  if (!res.ok) { const e = await res.text(); throw new Error(e); }
-  const data = await res.json();
-  const text = data.content.find(b=>b.type==='text')?.text || '{}';
+  if(!res.ok){const e=await res.text();throw new Error(e);}
+  const data=await res.json();
+  const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
   return JSON.parse(text.replace(/```json|```/g,'').trim());
 }
 
-function toBase64(file) {
-  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file); });
-}
+function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
 
-// ══ RESULTS ══
-function renderResults() {
-  if (!results.length) return;
-  document.getElementById('resultsSection').style.display = 'block';
+// ══ RENDER RESULTS ══
+function renderResults(){
+  if(!results.length)return;
+  document.getElementById('resultsSection').style.display='block';
   updateStats();
-
-  document.getElementById('resultsBody').innerHTML = results.map((card,i) => {
-    const tags = (card.special_tags||'').split(',').map(t=>t.trim()).filter(Boolean)
-      .map(t=>`<span class="tag ${/rookie|auto|patch|hall/i.test(t)?'special':''}">${esc(t)}</span>`).join('');
-
+  document.getElementById('resultsBody').innerHTML=results.map((card,i)=>{
+    const tags=(card.special_tags||'').split(',').map(t=>t.trim()).filter(Boolean).map(t=>`<span class="tag ${/rookie|auto|patch|hall/i.test(t)?'special':''}">${esc(t)}</span>`).join('');
     return `<tr>
       <td class="thumb-cell">${card._frontUrl?`<img src="${card._frontUrl}" />`:'—'}</td>
       <td class="muted">${i+1}</td>
       <td><input value="${esc(card.player_name)}" onchange="upd(${i},'player_name',this.value)" /></td>
-      <td><input value="${esc(card.year)}" style="width:58px" onchange="upd(${i},'year',this.value)" /></td>
+      <td><input value="${esc(card.year)}" style="width:56px" onchange="upd(${i},'year',this.value)" /></td>
       <td><input value="${esc(card.brand)}" style="min-width:80px" onchange="upd(${i},'brand',this.value)" /></td>
       <td><input value="${esc(card.set_name)}" style="min-width:80px" onchange="upd(${i},'set_name',this.value)" /></td>
-      <td><input value="${esc(card.card_number)}" style="width:54px" onchange="upd(${i},'card_number',this.value)" /></td>
+      <td><input value="${esc(card.card_number)}" style="width:52px" onchange="upd(${i},'card_number',this.value)" /></td>
       <td><input value="${esc(card.team)}" style="min-width:100px" onchange="upd(${i},'team',this.value)" /></td>
-      <td><input value="${esc(card.position)}" style="min-width:70px" onchange="upd(${i},'position',this.value)" /></td>
-      <td><input value="${esc(card.sport)}" style="min-width:70px" onchange="upd(${i},'sport',this.value)" /></td>
-      <td style="min-width:130px">${tags||'<span class="tag">—</span>'}</td>
-      <td><input value="${esc(card.condition_notes)}" style="min-width:90px" onchange="upd(${i},'condition_notes',this.value)" /></td>
-      <td class="price-links">${buildLinks(card)}</td>
+      <td><input value="${esc(card.position)}" style="min-width:68px" onchange="upd(${i},'position',this.value)" /></td>
+      <td><input value="${esc(card.sport)}" style="min-width:68px" onchange="upd(${i},'sport',this.value)" /></td>
+      <td style="min-width:120px">${tags||'<span class="tag">—</span>'}</td>
+      <td><input value="${esc(card.condition_notes)}" style="min-width:88px" onchange="upd(${i},'condition_notes',this.value)" /></td>
+      <td>${buildLinks(card)}</td>
     </tr>`;
   }).join('');
 }
 
-function buildLinks(card) {
-  const q = [card.player_name, card.year, card.brand, card.team, card.sport==='Baseball'?'baseball card':'sports card']
-    .filter(p=>p&&p!=='Unknown').join(' ');
-  const eq = encodeURIComponent(q);
-  const links = [];
-
-  links.push(`<a class="pl-btn pl-ebay-sold" href="https://www.ebay.com/sch/i.html?_nkw=${eq}&LH_Sold=1&LH_Complete=1" target="_blank">🔴 eBay Sold</a>`);
-  links.push(`<a class="pl-btn pl-ebay-active" href="https://www.ebay.com/sch/i.html?_nkw=${eq}" target="_blank">🔵 eBay Active</a>`);
-  links.push(`<a class="pl-btn pl-130pt" href="https://130point.com/sales/?query=${eq}" target="_blank">🟢 130point</a>`);
-  links.push(`<a class="pl-btn pl-beckett" href="https://www.beckett.com/search?q=${eq}" target="_blank">🟣 Beckett</a>`);
-  links.push(`<a class="pl-btn pl-comc" href="https://www.comc.com/Cards/Baseball/*/${encodeURIComponent(card.player_name||'')},n=40" target="_blank">🟠 COMC</a>`);
-
-  return `<div class="price-links">${links.join('')}</div>`;
+function buildLinks(card){
+  const q=[card.player_name,card.year,card.brand,card.sport==='Baseball'?'baseball card':'sports card'].filter(p=>p&&p!=='Unknown').join(' ');
+  const eq=encodeURIComponent(q);
+  return `<div class="price-links">
+    <a class="pl-btn pl-ebay-sold" href="https://www.ebay.com/sch/i.html?_nkw=${eq}&LH_Sold=1&LH_Complete=1" target="_blank">🔴 eBay Sold</a>
+    <a class="pl-btn pl-ebay-active" href="https://www.ebay.com/sch/i.html?_nkw=${eq}" target="_blank">🔵 eBay Active</a>
+    <a class="pl-btn pl-130pt" href="https://130point.com/sales/?query=${eq}" target="_blank">🟢 130point</a>
+    <a class="pl-btn pl-beckett" href="https://www.beckett.com/search?q=${eq}" target="_blank">🟣 Beckett</a>
+    <a class="pl-btn pl-comc" href="https://www.comc.com/Cards/Baseball/*/${encodeURIComponent(card.player_name||'')},n=40" target="_blank">🟠 COMC</a>
+  </div>`;
 }
 
-function upd(i, field, val) { results[i][field]=val; updateStats(); }
+function upd(i,field,val){results[i][field]=val;updateStats();}
 
-function updateStats() {
-  const total = results.length;
-  const teams = new Set(results.map(r=>r.team).filter(t=>t&&t!=='Unknown')).size;
-  const years = results.map(r=>parseInt(r.year)).filter(y=>!isNaN(y));
-  const brands = new Set(results.map(r=>r.brand).filter(b=>b&&b!=='Unknown')).size;
-  const positions = new Set(results.map(r=>r.position).filter(p=>p&&p!=='Unknown')).size;
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statTeams').textContent = teams;
-  document.getElementById('statYears').textContent = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '—';
-  document.getElementById('statBrands').textContent = brands;
-  document.getElementById('statPositions').textContent = positions;
+function updateStats(){
+  const total=results.length;
+  const teams=new Set(results.map(r=>r.team).filter(t=>t&&t!=='Unknown')).size;
+  const years=results.map(r=>parseInt(r.year)).filter(y=>!isNaN(y));
+  const brands=new Set(results.map(r=>r.brand).filter(b=>b&&b!=='Unknown')).size;
+  const positions=new Set(results.map(r=>r.position).filter(p=>p&&p!=='Unknown')).size;
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statTeams').textContent=teams;
+  document.getElementById('statYears').textContent=years.length?`${Math.min(...years)}–${Math.max(...years)}`:'—';
+  document.getElementById('statBrands').textContent=brands;
+  document.getElementById('statPositions').textContent=positions;
 }
 
 // ══ EXPORT ══
-function getRows() {
-  return results.map((c,i)=>({
-    '#': i+1,
-    'Player Name': c.player_name||'',
-    'Year': c.year||'',
-    'Brand': c.brand||'',
-    'Set Name': c.set_name||'',
-    'Card Number': c.card_number||'',
-    'Team': c.team||'',
-    'Position': c.position||'',
-    'Sport': c.sport||'',
-    'Special Tags': c.special_tags||'',
-    'Birth Info': c.birth_info||'',
-    'Condition': c.condition_notes||'',
-    'Notes': c.notes||'',
-    'eBay Sold URL': `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent([c.player_name,c.year,c.brand].filter(Boolean).join(' '))}&LH_Sold=1&LH_Complete=1`,
-    '130point URL': `https://130point.com/sales/?query=${encodeURIComponent([c.player_name,c.year,c.brand].filter(Boolean).join(' '))}`,
-    'Beckett URL': `https://www.beckett.com/search?q=${encodeURIComponent([c.player_name,c.year].filter(Boolean).join(' '))}`,
-  }));
+function getRows(){
+  return results.map((c,i)=>({'#':i+1,'Player Name':c.player_name||'','Year':c.year||'','Brand':c.brand||'','Set Name':c.set_name||'','Card Number':c.card_number||'','Team':c.team||'','Position':c.position||'','Sport':c.sport||'','Special Tags':c.special_tags||'','Birth Info':c.birth_info||'','Condition':c.condition_notes||'','Notes':c.notes||'','eBay Sold URL':`https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent([c.player_name,c.year,c.brand].filter(Boolean).join(' '))}&LH_Sold=1&LH_Complete=1`,'130point URL':`https://130point.com/sales/?query=${encodeURIComponent([c.player_name,c.year,c.brand].filter(Boolean).join(' '))}`,'Beckett URL':`https://www.beckett.com/search?q=${encodeURIComponent([c.player_name,c.year].filter(Boolean).join(' '))}`}));
 }
 
-function exportCSV() {
-  const rows = getRows(); if (!rows.length) { showToast('No cards to export!'); return; }
-  const headers = Object.keys(rows[0]);
-  const csv = [headers.join(','), ...rows.map(r=>headers.map(h=>`"${String(r[h]).replace(/"/g,'""')}"`).join(','))].join('\n');
-  const blob = new Blob([csv],{type:'text/csv'});
-  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`card-vault-${dateStr()}.csv`; a.click();
+function exportCSV(){
+  const rows=getRows();if(!rows.length){showToast('No cards to export!');return;}
+  const headers=Object.keys(rows[0]);
+  const csv=[headers.join(','),...rows.map(r=>headers.map(h=>`"${String(r[h]).replace(/"/g,'""')}"`).join(','))].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`card-vault-${dateStr()}.csv`;a.click();
   showToast('📄 CSV exported!');
 }
 
-function exportExcel() {
-  const rows = getRows(); if (!rows.length) { showToast('No cards to export!'); return; }
-  const ws = XLSX.utils.json_to_sheet(rows);
-  ws['!cols'] = Object.keys(rows[0]).map(k=>({wch:Math.max(k.length+2,16)}));
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Card Catalog');
-  const sum = [
-    {Field:'Total Cards',Value:results.length},
-    {Field:'Unique Teams',Value:new Set(results.map(r=>r.team)).size},
-    {Field:'Unique Brands',Value:new Set(results.map(r=>r.brand)).size},
-    {Field:'Export Date',Value:new Date().toLocaleDateString()},
-  ];
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(sum), 'Summary');
-  XLSX.writeFile(wb, `card-vault-${dateStr()}.xlsx`);
+function exportExcel(){
+  const rows=getRows();if(!rows.length){showToast('No cards to export!');return;}
+  const ws=XLSX.utils.json_to_sheet(rows);
+  ws['!cols']=Object.keys(rows[0]).map(k=>({wch:Math.max(k.length+2,16)}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Card Catalog');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet([{'Field':'Total Cards','Value':results.length},{'Field':'Unique Teams','Value':new Set(results.map(r=>r.team)).size},{'Field':'Unique Brands','Value':new Set(results.map(r=>r.brand)).size},{'Field':'Export Date','Value':new Date().toLocaleDateString()}]),'Summary');
+  XLSX.writeFile(wb,`card-vault-${dateStr()}.xlsx`);
   showToast('📊 Excel exported!');
 }
 
-function dateStr() { return new Date().toISOString().slice(0,10); }
-function esc(s) { return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''; }
+function dateStr(){return new Date().toISOString().slice(0,10);}
+function esc(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''}
 
 // ══ TOAST ══
 let tt;
-function showToast(msg) {
-  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),3000);
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),3200);}
 
 // ══ INIT ══
 renderDropZones();
