@@ -585,9 +585,12 @@ async function startScan(){
     updateProgress(done,pending.length,`Scanning card ${done+1} of ${pending.length}...`);
     setItemStatus(item,'scanning');
     try{
-      const data=await analyzeCard(item,key);
-      item.status='done';item.data=data;
-      results.push({...data,_frontUrl:item.frontUrl,_backUrl:item.backUrl,_id:item.id});
+      const cards=await analyzeCard(item,key);
+      item.status='done';item.data=cards;
+      // Each photo can return multiple cards — push them all
+      cards.forEach(card=>{
+        results.push({...card,_frontUrl:item.frontUrl,_backUrl:item.backUrl,_id:item.id});
+      });
       setItemStatus(item,'done');
     }catch(e){item.status='error';setItemStatus(item,'error');console.error(e);}
     done++;
@@ -617,22 +620,26 @@ async function analyzeCard(item,apiKey){
   const parts=[];
   const prompt=`You are a professional sports card grader and cataloger with expert knowledge of all card sets from 1950–present.
 Analyze this sports card carefully and extract EVERY piece of information visible.
-Return ONLY a valid JSON object — no markdown fences, no explanation, no preamble:
-{
-  "player_name": "Full player name as printed, or Unknown",
-  "year": "4-digit year the card was produced, or Unknown",
-  "brand": "Manufacturer brand (Topps, Donruss, Upper Deck, Fleer, Bowman, Score, Leaf, Pacific, Pinnacle, O-Pee-Chee, Stadium Club, Finest, Ultra, Select, etc.) or Unknown",
-  "set_name": "Specific set or series name if visible else empty string",
-  "card_number": "Card number exactly as printed (e.g. 552) else empty string",
-  "team": "Full team name (e.g. Minnesota Twins) or Unknown",
-  "position": "Player position (Pitcher, Catcher, 1st Base, Outfield, Point Guard, etc.) or Unknown",
-  "sport": "Baseball, Basketball, Football, Hockey, Soccer, or Other",
-  "special_tags": "Comma-separated applicable tags from: Rookie Card, MVP, All-Star, Hall of Fame, Special Edition, Gold, Chrome, Refractor, Autograph, Patch, Numbered, Error Card, Variation, Team Card, World Series, Playoffs, Draft Pick — empty string if none apply",
-  "birth_info": "Birthdate and birthplace if visible on back, else empty string",
-  "condition_notes": "Mint, Near Mint, Excellent, Good, Fair, or Poor — add specifics like worn corners if visible",
-  "notes": "Any other notable info visible (trade notes, career highlights, etc.) else empty string"
-}
-If multiple cards are visible, analyze the most prominent one. Be precise — this is used for pricing research.`;
+CRITICAL: This photo may contain ONE card or MANY cards. You MUST catalog EVERY card visible — scan top-left to bottom-right, do not skip any.
+
+Return ONLY a valid JSON array (even for one card). No markdown, no explanation:
+[
+  {
+    "player_name": "Full player name as printed, or Unknown",
+    "year": "4-digit year the card was produced, or Unknown",
+    "brand": "Manufacturer brand (Topps, Donruss, Upper Deck, Fleer, Bowman, Score, Leaf, Pacific, Pinnacle, O-Pee-Chee, Stadium Club, Finest, Ultra, Select, etc.) or Unknown",
+    "set_name": "Specific set or series name if visible, else empty string",
+    "card_number": "Card number exactly as printed, else empty string",
+    "team": "Full team name (e.g. Minnesota Twins) or Unknown",
+    "position": "Player position (Pitcher, Catcher, 1st Base, Outfield, etc.) or Unknown",
+    "sport": "Baseball, Basketball, Football, Hockey, Soccer, or Other",
+    "special_tags": "Comma-separated tags from: Rookie Card, MVP, All-Star, Hall of Fame, Special Edition, Gold, Chrome, Refractor, Autograph, Patch, Numbered, Error Card, Variation, Team Card, World Series, Playoffs, Draft Pick — empty string if none",
+    "birth_info": "Birthdate and birthplace if visible, else empty string",
+    "condition_notes": "Mint, Near Mint, Excellent, Good, Fair, or Poor — add specifics if visible",
+    "notes": "Any other notable info, else empty string"
+  }
+]
+Include every card in the image. Be precise — this data is used for pricing research.`;
 
   if(item.frontFile){
     const b64=await toBase64(item.frontFile);
@@ -651,13 +658,15 @@ If multiple cards are visible, analyze the most prominent one. Be precise — th
   const res=await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
     {method:'POST',headers:{'Content-Type':'application/json'},
-     body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.1,maxOutputTokens:1024}})}
+     body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.1,maxOutputTokens:4096}})}
   );
 
   if(!res.ok){const e=await res.text();throw new Error(e);}
   const data=await res.json();
-  const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
-  return JSON.parse(text.replace(/```json|```/g,'').trim());
+  const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'[]';
+  const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
+  // Always return an array
+  return Array.isArray(parsed)?parsed:[parsed];
 }
 
 function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
